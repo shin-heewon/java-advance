@@ -1,4 +1,4 @@
-package collectionEx.board.list;
+package collectionEx.list;
 
 public class Node <T>{
   T data;// T타입의 데이터 공간 선언
