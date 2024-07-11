@@ -73,7 +73,7 @@ public class SingleLinkedList<T> {
 
 
   /*삭제하는 메소드*/
-  public boolean delNode(T isData){
+  /*public boolean delNode(T isData){
     if(this.head == null){
       return false;
     }else{
@@ -92,8 +92,55 @@ public class SingleLinkedList<T> {
         return false;
       }
     }
+  }*/
+  public boolean delNode(T isData) {
+    if (this.head == null) {
+      return false;
+    } else {
+      Node<T> node = this.head;
+      if (node.data == isData) {
+        this.head = this.head.next;
+        return true;
+      } else {
+        while (node.next != null) {
+          if (node.next.data == isData) {
+            node.next = node.next.next;
+            return true;
+          }
+          node = node.next;
 
+        }
+        return false;
+      }
+    }
   }
+
+/*  public boolean delNode2(T isData){
+    if(this.head == null){
+      return false;
+    }else{
+      Node<T> node = this.head.next;
+      if(head.data == isData){
+        head = node;
+        return true;
+      }
+
+      if(node.data == isData){
+        //this.head = this.head.next;//헤드 다음의 값을 헤드로 만들어줌.
+        this.head.next = node.next;
+        return true;
+      }else{
+        while (node.next != null){
+          if(node.next.data == isData){
+            node.next = node.next.next;
+            return true;
+          }
+          node = node.next;
+        }
+        return false;
+      }
+    }
+  }*/
 
 
 }
