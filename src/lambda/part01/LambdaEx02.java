@@ -1,6 +1,4 @@
-package lamda;
-
-import java.util.Arrays;
+package lambda.part01;
 
 /*
  * 1. 두 개의 정수를 받아 정수를 반환하는 단일 메소드 'operate'가 있는

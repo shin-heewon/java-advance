@@ -1,4 +1,4 @@
-package lamda;
+package lambda.part01;
 
 /*
  * 1. 정수 리스트를 받아 정수를 반환하는 단일 추상 메소드 getMax()를 사용하여 FindMax인터페이스를 생성하시오
@@ -8,7 +8,6 @@ package lamda;
  * 5. max객체에서 getMax()호출하여 최대값 출력
  * */
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
