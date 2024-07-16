@@ -7,6 +7,7 @@ public class ButtonEx {
     Button btn = new Button();
 
     btn.setClickListener(//람다식을 통해 setClickListener()메소드의 매개변수로 넘어감
+            //onClick()의 실행부
         ()->{
           System.out.println("버튼이 클릭되었습니다.");
         }
