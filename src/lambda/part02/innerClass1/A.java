@@ -24,9 +24,6 @@ public class A {
     }
 
 
-
-
-
   }//end B class
 
 
