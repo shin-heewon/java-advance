@@ -1,18 +1,20 @@
-package board.dao;
+package board.lib;
 
+
+import collectionEx.MapEx.PropertiesEx;
+import com.sun.source.tree.TryTree;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class ConnectionFactory {
 
+  private Properties properties = new Properties();
+  private Connection con;
 
-  private Connection con = null;
-  private String url = "jdbc:mysql://localhost:3306/ssgdatabase";
-  private String id = "root";
-  private String pwd = "mysql1234";
 
-  //값이 바뀌지 않고, 바꿀 수 없도록 private static final로 선언
   private static final ConnectionFactory instance = new ConnectionFactory();
 
   private ConnectionFactory() {
@@ -25,9 +27,12 @@ public class ConnectionFactory {
 
   public Connection open() {
     try {
-      con = DriverManager.getConnection(url, id, pwd);
+      properties.load(ConnectionFactory.class.getResourceAsStream("db.properties"));
+      con = DriverManager.getConnection(properties.getProperty("url"),properties.getProperty("id"),properties.getProperty("pwd"));
     } catch (SQLException e) {
       System.err.println(e.getMessage());
+    }catch(IOException e){
+      e.printStackTrace();
     } finally {
 
     }

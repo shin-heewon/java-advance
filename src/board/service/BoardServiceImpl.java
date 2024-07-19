@@ -1,25 +1,24 @@
-package board.dao;
+package board.service;
 
-import static board.BoardExample.mainMenu;
-import static board.BoardExample.read_subMenu;
-import static board.BoardExample.subMenu;
 
-import board.BoardExample;
+
 import board.dto.Board;
+import board.lib.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class BoardDAO {
+public abstract class BoardServiceImpl implements BoardServiceInterface {
 
-  static Connection con = null;
-  static ResultSet rs = null;
-  static Scanner sc = new Scanner(System.in);
-  BoardExample be = new BoardExample();
+  Connection con = null;
+  ResultSet rs = null;
+  Scanner sc = new Scanner(System.in);
+  MenuPrintImpl m;
 
-  public static void list() throws SQLException {
+  @Override
+  public void list() {
     System.out.println();
     System.out.println("[게시물 목록]");
     System.out.println("---------------------------------------------------");
@@ -33,7 +32,7 @@ public class BoardDAO {
       PreparedStatement pstmt = con.prepareStatement(query);
       rs = pstmt.executeQuery();
       while (rs.next()) {
-        Board board = new Board();
+        board.dto.Board board = new board.dto.Board();
         board.setBno(rs.getInt(1));
         board.setBwriter(rs.getString(2));
         board.setBdate(rs.getDate(3));
@@ -46,19 +45,16 @@ public class BoardDAO {
       }
       rs.close();
       pstmt.close();
+      con.close();
     } catch (SQLException e) {
       e.printStackTrace();
-    } finally {
-      con.close();
     }
-    mainMenu();
-  }//end of list()
+    m.mainMenu();
+  }
 
-
-
-  public static void create() {
-
-    Board board = new Board();
+  @Override
+  public void create() {
+board.dto.Board board = new board.dto.Board();
     System.out.println("[새 게시물 입력]");
     System.out.print("제목: ");
     board.setBtitle(sc.nextLine());
@@ -68,7 +64,7 @@ public class BoardDAO {
     board.setBwriter(sc.nextLine());
 
     //보조메뉴
-    if (subMenu().equals("1")) {
+    if (m.subMenu().equals("1")) {
 
       try {
         con = ConnectionFactory.getInstance().open();
@@ -87,15 +83,12 @@ public class BoardDAO {
         throw new RuntimeException(e);
       }
     }else{
-      mainMenu();
-      return;
+      m.mainMenu();
     }
-  }//end of create()
+  }
 
-
-
+  @Override
   public void read() {
-
     System.out.println("[게시물 읽기]");
     System.out.print("bno: ");
     int bno = Integer.parseInt(sc.nextLine());
@@ -107,7 +100,7 @@ public class BoardDAO {
       pstmt.setInt(1, bno);
       rs = pstmt.executeQuery();
       if (rs.next()) {
-        Board board = new Board();
+        board.dto.Board board = new board.dto.Board();
         board.setBno(rs.getInt("bno"));
         board.setBtitle(rs.getString(2));
         board.setBcontent(rs.getString(3));
@@ -123,13 +116,13 @@ public class BoardDAO {
         System.out.println("작성자: " + board.getBwriter());
         System.out.println("날짜: " + board.getBdate());
 
-        int subMenu = Integer.parseInt(read_subMenu());
+        int subMenu = Integer.parseInt(m.read_subMenu());
 
         switch (subMenu) {
           case 1 -> update(board);
           case 2 -> delete(board);
           case 3 -> list();
-          default -> subMenu();
+          default -> m.subMenu();
         }
 
 
@@ -139,10 +132,10 @@ public class BoardDAO {
       throw new RuntimeException(e);
     }
 
-  }//end of read
+  }
 
-
-  public void update(Board b) {
+  @Override
+  public void update(board.dto.Board b) {
     System.out.println("[수정 내용 입력]");
     System.out.print("제목: ");
     b.setBtitle(sc.nextLine());
@@ -151,7 +144,7 @@ public class BoardDAO {
     System.out.print("작성자: ");
     b.setBwriter(sc.nextLine());
 
-    if (subMenu().equals("1")) {
+    if (m.subMenu().equals("1")) {
       try {
 
         con = ConnectionFactory.getInstance().open();
@@ -171,13 +164,12 @@ public class BoardDAO {
       }
 
     } else {
-      mainMenu();
-      return;
+      m.mainMenu();
     }
+  }
 
-  }//end of update
-
-  public static void delete(Board b) {
+  @Override
+  public void delete(Board b) {
     try {
       con = ConnectionFactory.getInstance().open();
       String query = "DELETE FROM board WHERE bno=?";
@@ -191,10 +183,12 @@ public class BoardDAO {
     }
   }//end of delete
 
+
+  @Override
   public void clear() {
     System.out.println("[게시물 전체 삭제]");
     System.out.println("---------------------------------------------------");
-    if (subMenu().equals("1")) {
+    if (m.subMenu().equals("1")) {
       try {
         con = ConnectionFactory.getInstance().open();
         String query = "TRUNCATE TABLE board";
@@ -207,11 +201,11 @@ public class BoardDAO {
 
       }
     }else{
-      mainMenu();
-      return;
+      m.mainMenu();
     }
-  }//end of clear
+  }
 
+  @Override
   public void exit() {
     if (con != null) {
       try {
@@ -222,8 +216,5 @@ public class BoardDAO {
       System.out.println("** 게시판 종료 **");
       System.exit(0);
     }
-
   }
-
-
 }
