@@ -1,14 +1,15 @@
 package board;
 
 import board.service.BoardServiceImpl;
+import board.service.BoardServiceInterface;
 import java.util.Scanner;
 
-public class BoardExample extends BoardServiceImpl {
+public class BoardExample {
 
   public static void main(String[] args) throws Exception {
 
-    BoardExample be = new BoardExample();
-    be.list();
+    BoardServiceInterface b = new BoardServiceImpl();
+    b.list();
 
   }
 

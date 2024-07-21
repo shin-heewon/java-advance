@@ -1,7 +1,6 @@
 package board.service;
 
 
-
 import board.dto.Board;
 import board.lib.ConnectionFactory;
 import java.sql.Connection;
@@ -10,12 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public abstract class BoardServiceImpl implements BoardServiceInterface {
+public class BoardServiceImpl implements BoardServiceInterface {
 
   Connection con = null;
   ResultSet rs = null;
   Scanner sc = new Scanner(System.in);
-  MenuPrintImpl m;
+  MenuPrintImpl m = new MenuPrintImpl();
 
   @Override
   public void list() {
@@ -48,13 +47,14 @@ public abstract class BoardServiceImpl implements BoardServiceInterface {
       con.close();
     } catch (SQLException e) {
       e.printStackTrace();
+      System.err.println(e.getMessage());
     }
     m.mainMenu();
   }
 
   @Override
   public void create() {
-board.dto.Board board = new board.dto.Board();
+    board.dto.Board board = new board.dto.Board();
     System.out.println("[새 게시물 입력]");
     System.out.print("제목: ");
     board.setBtitle(sc.nextLine());
@@ -82,7 +82,7 @@ board.dto.Board board = new board.dto.Board();
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
-    }else{
+    } else {
       m.mainMenu();
     }
   }
@@ -200,7 +200,7 @@ board.dto.Board board = new board.dto.Board();
         throw new RuntimeException(e);
 
       }
-    }else{
+    } else {
       m.mainMenu();
     }
   }

@@ -27,12 +27,17 @@ public class ConnectionFactory {
 
   public Connection open() {
     try {
-      properties.load(ConnectionFactory.class.getResourceAsStream("db.properties"));
-      con = DriverManager.getConnection(properties.getProperty("url"),properties.getProperty("id"),properties.getProperty("pwd"));
+      Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL JDBC 드라이버 로드
+      properties.load(ConnectionFactory.class.getResourceAsStream("../dto/db.properties"));
+      con = DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("id"),
+          properties.getProperty("pwd"));
+
     } catch (SQLException e) {
       System.err.println(e.getMessage());
-    }catch(IOException e){
+    } catch (IOException e) {
       e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException(e);
     } finally {
 
     }

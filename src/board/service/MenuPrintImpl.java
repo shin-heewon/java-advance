@@ -2,9 +2,8 @@ package board.service;
 
 import java.util.Scanner;
 
-public abstract class MenuPrintImpl implements MenuPrintInterface{
+public class MenuPrintImpl implements MenuPrintInterface {
 
-  BoardServiceImpl service;
 
   @Override
   public void mainMenu() {
@@ -16,13 +15,16 @@ public abstract class MenuPrintImpl implements MenuPrintInterface{
     Scanner sc = new Scanner(System.in);
     int selectedMenu = sc.nextInt();
     sc.nextLine();
-
+    BoardServiceImpl service = new BoardServiceImpl();
     switch (selectedMenu) {
       case 1 -> service.create();
       case 2 -> service.read();
       case 3 -> service.clear();
       case 4 -> service.exit();
-      default -> {System.out.println("잘못 입력하셨습니다. 다시 입력해주세요."); mainMenu();}
+      default -> {
+        System.out.println("잘못 입력하셨습니다. 다시 입력해주세요.");
+        mainMenu();
+      }
     }
   }//end of mainMenu
 
