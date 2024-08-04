@@ -1,0 +1,91 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+:Main Admin: as Admin
+(Use the application) as (Use)
+
+총관리자 -> (Start)
+창고관리자 --> (Use)
+
+Admin ---> (Use)
+
+note right of Admin : This is an example.
+
+note right of (Use)
+A note can also
+be on several lines
+end note
+
+note "This note is connected\nto several objects." as N2
+(Start) .. N2
+N2 .. (Use)
+
+@enduml
+
+@startuml
+
+rectangle "회원관리"{
+left to right direction
+
+package "관리자"{
+actor "창고관리자" as wh_manager
+actor "총관리자" as Admin
+}
+
+actor "비회원" as unregisterd
+actor "회원" as user
+actor "배송기사" as delivery
+
+
+
+
+usecase "회원가입 승인" as UC_Approve
+usecase "회원조회" as inquiry
+
+package "회원조회"{
+
+wh_manager-->inquiry
+Admin-->inquiry
+inquiry<..(전체회원조회):<<extends>>
+inquiry<..(권한별회원조회):<<extends>>
+inquiry<..(쇼핑몰사업자회원조회):<<extends>>
+}
+
+(회원가입)<--unregisterd
+'(회원가입) --> UC_Approve : 회원가입 승인 요청
+Admin --> UC_Approve
+wh_manager --> UC_Approve
+UC_Approve--|> (회원가입) : 회원가입 승인 요청
+
+
+
+
+user-->(회원수정)
+delivery-->(회원수정)
+wh_manager-->(회원수정)
+Admin-->(회원수정)
+
+
+'user--(회원삭제)
+'delivery--(회원삭제)
+'wh_manager--(회원삭제)
+'Admin--(회원삭제)
+(회원수정)..>(회원삭제):<<extends>>
+
+user-->(아이디 찾기)
+delivery-->(아이디 찾기)
+wh_manager-->(아이디 찾기)
+Admin-->(아이디 찾기)
+
+user-->(비밀번호 찾기)
+delivery-->(비밀번호 찾기)
+wh_manager-->(비밀번호 찾기)
+Admin-->(비밀번호 찾기)
+
+user-->(회원상세보기)
+delivery-->(회원상세보기)
+wh_manager-->(회원상세보기)
+Admin-->(회원상세보기)
+}
+@enduml
+

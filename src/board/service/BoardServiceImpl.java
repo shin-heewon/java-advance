@@ -95,11 +95,14 @@ public class BoardServiceImpl implements BoardServiceInterface {
     System.out.println("#############");
     String query = "SELECT bno, btitle, bcontent, bwriter, bdate FROM board WHERE bno=?";
     try {
+
       con = ConnectionFactory.getInstance().open();
       PreparedStatement pstmt = con.prepareStatement(query);
       pstmt.setInt(1, bno);
       rs = pstmt.executeQuery();
+     
       if (rs.next()) {
+
         board.dto.Board board = new board.dto.Board();
         board.setBno(rs.getInt("bno"));
         board.setBtitle(rs.getString(2));
