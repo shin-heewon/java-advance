@@ -1,11 +1,11 @@
 @startuml
-rectangle "재무관리"{
+
 left to right direction
 
 actor "창고관리자" as wh_m
 actor "총관리자" as admin
 
-
+rectangle "재무관리"{
 wh_m--> (지출 및 매출 내역 등록)
 admin--> (지출 및 매출 내역 등록)
 

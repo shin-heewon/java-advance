@@ -1,0 +1,49 @@
+@startuml
+left to right direction
+'top to bottom direction
+
+package "관리자"{
+actor "창고관리자" as wh_manager
+actor "총관리자" as admin
+}
+
+actor "비회원" as unregisterd
+actor "회원" as user
+actor "배송기사" as delivery
+
+
+rectangle "출고관리"{
+
+(출고요청)<-up-user
+(출고요청승인)--|>(출고요청)
+
+관리자--->(출고요청승인)
+
+
+
+'(출고지시서조회)-->(출고요청승인)
+'(출고리스트조회)-->(출고지시서조회):<<extends>>
+
+관리자--->(출고지시서 조회)
+관리자--->(출고리스트 조회)
+
+관리자--->(배차등록)
+관리자--->(운송장등록)
+관리자-->(운송장조회)
+
+(배차등록)<|..(배차조회):<<extends>>
+(배차등록)<|..(배차수정):<<extends>>
+(배차등록)<|..(배차취소):<<extends>>
+
+
+(운송장등록)<|..(운송장수정):<<extends>>
+(운송장등록)<|-up-(운송장조회)
+
+unregisterd-up->(운송장조회)
+delivery-up->(운송장조회)
+
+user-up->(출고지시서 조회)
+user-up->(출고리스트 조회)
+user-->(운송장조회)
+}
+@enduml

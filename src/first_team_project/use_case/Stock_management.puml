@@ -1,0 +1,44 @@
+@startuml
+
+left to right direction
+package "관리자"{
+actor "창고관리자" as wh_manager
+actor "총관리자" as admin
+}
+actor "회원" as user
+
+
+rectangle "재고관리"{
+
+admin-->(재고실사 등록)
+wh_manager-->(재고실사 등록)
+
+'admin-->(재고실사 수정)
+'wh_manager-->(재고실사 수정)
+'
+'admin-->(재고실사 삭제)
+'wh_manager-->(재고실사 삭제)
+'
+'admin-->(재고실사 조회)
+'wh_manager-->(재고실사 조회)
+
+(재고실사 등록)<|--(재고실사 삭제)
+(재고실사 등록)<|--(재고실사 수정)
+(재고실사 등록)<|--(재고실사 조회)
+
+admin-->(재고 조회)
+wh_manager-->(재고 조회)
+user-->(재고 조회)
+
+
+(재고 조회)<..(대분류별 조회):<<extends>>
+(대분류별 조회)<..(중분류별 조회):<<extends>>
+(중분류별 조회)<..(소분류별 조회):<<extends>>
+
+(재고 조회)<..(품목현황 리스트):<<include>>
+(재고 조회)<..(창고현황 리스트):<<include>>
+(재고 조회)<..(거래처현황 리스트):<<include>>
+
+
+}
+@enduml

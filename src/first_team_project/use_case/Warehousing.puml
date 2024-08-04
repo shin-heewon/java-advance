@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+package "관리자"{
+actor "창고관리자" as wh_manager
+actor "총관리자" as admin
+}
+actor "회원" as user
+
+
+rectangle "입고관리"{
+
+user-->(입고요청)
+관리자-->(입고요청)
+
+관리자-->(입고요청 승인)
+(입고요청 승인).left.|>(입고요청)
+(입고요청 취소).left.|>(입고요청)
+(입고요청 수정).left.|>(입고요청)
+
+(입고요청 승인)<..(QR바코드 생성):<<extends>>
+(QR바코드 생성)<..(입고위치 지정):<<extends>>
+(QR바코드 생성)<..(입고날짜 지정):<<extends>>
+
+관리자-->(입고)
+(입고)<|--(입고현황)
+user-->(입고현황)
+(기간별 입고현황).left.>(입고현황):<<extends>>
+(월별 입고현황).up.>(입고현황):<<extends>>
+
+(QR바코드 조회).up.>(입고):<<extends>>
+
+
+
+
+
+}
+@enduml
